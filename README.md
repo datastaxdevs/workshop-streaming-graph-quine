@@ -2,7 +2,7 @@
 
 Welcome to the *Graph Streaming and Quine** workshop! In this two-hour workshop, we show how to combine scalable database as `Apache Cassandra™` with a poweful realtime graph engine `Quine`.
 
-Using **Astra DB**, the cloud based _Cassandra-as-a-Service_ platform delivered by DataStax, we will cover the very first steps for every developer who wants to try to learn a new database: creating tables and CRUD operations. 
+Using **Astra DB**, the cloud based _Cassandra-as-a-Service_ platform delivered by DataStax, we will cover the very first steps for every developer who wants to try to learn a new database: creating tables and CRUD operations.
 
 ![](images/splash.png)
 
@@ -16,7 +16,7 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 2. [Frequently asked questions](#2-frequently-asked-questions)
 3. [Materials for the Session](#3-materials-for-the-session)
 4. [Create your Database](#4-create-your-astra-db-instance)
-5. [Setup your graph](##)
+5. [Setup Quine](##)
 6. [Graph Exploration](#)
 7. [Homework](#7-homework)
 8. [What's NEXT ](#8-whats-next-)
@@ -54,7 +54,7 @@ In this readme, we try to provide instructions for local development as well - b
 <ul>
 <li>You will need enough *real estate* on screen, we will ask you to open a few windows and it would not fit on mobiles (tablets should be OK)
 <li>You will need an Astra account: don't worry, we'll work through that in the following
-<li>As "Intermediate level" we expect you to know what java and Spring are. 
+<li>As "Intermediate level" we expect you to know what java and Spring are.
 </ul>
 </p>
 </details>
@@ -109,13 +109,106 @@ The status will change from `Pending` to `Active` when the database is ready, th
 
 [🏠 Back to Table of Contents](#-table-of-content)
 
-## 5. Setup your graph
+## 5. Setup Quine
+
+These instructions were written using Java 11.10.
+
+### Download Quine
+
+Follow the [Download Quine page](https://quine.io/download) to download the JAR. Choose/create a directory for Quine, and copy the JAR to this location:
+
+```bash
+mkdir ~/local/quine
+cp ~/Downloads/quine-1.2.1.jar ~/local/quine
+```
+
+### Configure Quine
+
+✅ Step 3 Configuration
+
+Create a `quine.conf` file inside the quine directory:
+
+```bash
+cd ~/local/quine
+touch quine.conf
+```
+
+Edit the `quine.conf` file to look like the following:
 
 ```
-astra setup
-astra db cqlsh -f schema.cql
-astra db dsbulk load ...
+quine.store {
+  # store data in an Apache Cassandra instance
+  type = cassandra
+
+  # the keyspace to use
+  keyspace = quine
+
+  should-create-keyspace = false
+  should-create-tables = true
+
+  replication-factor = 3
+
+  write-consistency = LOCAL_QUORUM
+  read-consistency = LOCAL_QUORUM
+
+  local-datacenter = "us-east1"
+
+  write-timeout = "10s"
+  read-timeout = "10s"
+}
+datastax-java-driver {
+  advanced {
+    auth-provider {
+      class = PlainTextAuthProvider
+      username = "token"
+      password = "AstraCS:qFDPGZEgBlahBlahYourTokenGoesHerecff15fc"
+    }
+  }
+  basic {
+    cloud {
+      secure-connect-bundle = "/Users/aaronploetz/local/secure-connect-bundle.zip"
+    }
+  }
+}
 ```
+
+Astra-Specific Settings:
+
+`type = cassandra` - If the type is not specified, Quine defaults to use RocksDB.
+
+`should-create-keyspace = false` - Remember keyspaces can only be created in Astra via the dashboard.
+
+`replication-factor = 3` - Defaults to 1 if not set, which will not work with Astra DB.
+
+`write-consistency = LOCAL_QUORUM` - Minimum consistency level required by Astra.
+
+`read-consistency = LOCAL_QUORUM` - Minimum consistency level required by Astra.
+
+`local-datacenter = "us-east1"` - Set your Astra DB cloud region as the local DC.
+
+`username = "token"` - No need to mess with this. Just leave it as the literal word "token."
+
+`password` - A valid token for an Astra DB cluster.
+
+`secure-connect-bundle` - A valid, local file location of a downloaded Astra secure connect bundle. The driver gets the Astra DB hostname from the secure bundle, so there is no need to specify endpoints separately.
+
+### Starting Quine
+
+To run Quine, invoke the JAR with Java, while passing the `quine.conf` in the `config.file` JVM parameter:
+
+```bash
+java -Dconfig.file=quine.conf -jar quine-1.2.1.jar
+```
+
+If Quine starts correctly, it should produce output similar to below:
+```bash
+2022-06-15 15:11:52,666 WARN [NotFromActor] [s0-io-4] com.datastax.oss.driver.internal.core.cql.CqlRequestHandler - Query '[0 values] CREATE TABLE IF NOT EXISTS journals (quine_id blob,timestamp bigint,data blob,PRIMARY KEY(quine_id,timestamp)) WITH CLUSTERING ORDER BY (timestamp ASC) AND compaction={'class':'TimeWindowCompactionStrategy'}' generated server side warning(s): Ignoring provided values [compaction] as they are not supported for Table Properties (ignored values are: [additional_write_policy, bloom_filter_fp_chance, caching, cdc, compaction, compression, crc_check_chance, dclocal_read_repair_chance, extensions, gc_grace_seconds, id, max_index_interval, memtable_flush_period_in_ms, min_index_interval, nodesync, read_repair, read_repair_chance, speculative_retry])
+Graph is ready!
+Application state loaded.
+Quine app web server available at http://0.0.0.0:8080
+```
+
+You can now use Quine's visual graph explorer in a web browser, and create/traverse data with either Gremlin or Cypher: http://localhost:8080/
 
 [🏠 Back to Table of Contents](#table-of-contents)
 
@@ -127,7 +220,7 @@ todo
 
 ## 7. Homework
 
-To submit the **homework**, 
+To submit the **homework**,
 
 ```
 todo

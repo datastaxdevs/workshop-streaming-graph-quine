@@ -4,6 +4,7 @@ tasks:
   - name: setup
     before: |
       curl -L https://github.com/thatdot/quine/releases/download/v1.3.2/quine-1.3.2.jar -o quine-1.3.2.jar
+      curl -L https://that.re/attempts -o attempts.json
     command: |
       gp open README.md
 ports:

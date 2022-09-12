@@ -111,7 +111,9 @@ The status will change from `Pending` to `Active` when the database is ready, th
 
 ## 5. Setup Quine
 
-These instructions were written using Java 11.10.
+These instructions were written using Java 11.10.  To run Quine locally, follow the steps below.  Or, you can run it in GitPod:
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/datastaxdevs/workshop-streaming-graph-quine)
 
 ### Download Quine
 

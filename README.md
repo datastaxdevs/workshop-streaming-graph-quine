@@ -17,7 +17,7 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 2. [Frequently asked questions](#2-frequently-asked-questions)
 3. [Materials for the Session](#3-materials-for-the-session)
 4. [Create your Database](#4-create-your-astra-db-instance)
-5. [Setup Quine](#5-setup-quine#)
+5. [Setup Quine](#5-setup-quine)
 6. [Graph Exploration](#)
 7. [Homework](#7-homework)
 8. [What's NEXT ](#8-whats-next-)

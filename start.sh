@@ -1,1 +1,1 @@
-java -Dconfig.file=quine.conf -jar quine-1.3.2.jar -r passwordspraying --force-config
+java -Dconfig.file=quine.conf -jar quine.jar -r password-spraying-workshop.yml --force-config

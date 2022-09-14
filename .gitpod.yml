@@ -16,6 +16,9 @@ tasks:
       # Create a Quine sym-link
       ln -s $(ls -tr quine-*.jar | tail -1) quine.jar
 
+      # Download the sample data
+      curl -L https://that.re/attempts -o attempts.json
+
 ports:
   - port: 8080
     onOpen: open-browser

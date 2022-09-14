@@ -4,8 +4,16 @@ tasks:
   - name: setup
     before: |
       gp open README.md
-      curl -L https://github.com/thatdot/quine/releases/download/v1.3.2/quine-1.3.2.jar -o quine-1.3.2.jar
-      curl -L https://that.re/attempts -o attempts.json
+      # Download the latest release
+      curl -s https://api.github.com/repos/thatdot/quine/releases/latest \
+      | grep "browser_download_url.*jar" \
+      | cut -d : -f 2,3 \
+      | tr -d \" \
+      | wget -i -
+      
+      # Create a Quine sym-link
+      ln -s $(ls -tr quine-*.jar | tail -1) quine.jar
+
 ports:
   - port: 8080
     onOpen: open-browser

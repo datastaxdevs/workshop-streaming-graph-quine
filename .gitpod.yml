@@ -2,8 +2,10 @@ image:
   file: .gitpod.Dockerfile
 tasks:
   - name: setup
-    before: |
+    before: |-
+      # Open README in VS Code (or default IDE)
       gp open README.md
+
       # Download the latest release
       curl -s https://api.github.com/repos/thatdot/quine/releases/latest \
       | grep "browser_download_url.*jar" \

@@ -1,5 +1,5 @@
-
-CREATE KEYSPACE quine WITH replication = {'class': 'NetworkTopologyStrategy', 'us-east1': '3'}  AND durable_writes = true;
+# CREATE KEYSPACE not valid with Astra DB
+# CREATE KEYSPACE quine WITH replication = {'class': 'NetworkTopologyStrategy', 'us-east1': '3'}  AND durable_writes = true;
 
 DROP TABLE IF EXISTS quine.journals ;
 CREATE TABLE quine.journals (

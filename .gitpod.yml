@@ -12,13 +12,16 @@ tasks:
       | cut -d : -f 2,3 \
       | tr -d \" \
       | wget -i -
-      
+
       # Create a Quine sym-link
       ln -s $(ls -tr quine-*.jar | tail -1) quine.jar
 
       # Download the sample data
       curl -L https://that.re/attempts -o attempts.json
 
+      # get cqlsh
+      mkdir bin
+      curl -Ls "https://dtsx.io/get-astra-cli" | bash
 ports:
   - port: 8080
     onOpen: open-browser

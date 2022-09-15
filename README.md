@@ -25,15 +25,15 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 
 ## 1. Objectives
 
-1️⃣ **Give you an understanding and how and where to position Apache Cassandra™**
+1️⃣ **Give you an understanding of Quine streaming graph**
 
-2️⃣ **Give an overview of the NoSQL ecosystem and its rationale**
+2️⃣ **Show how to configure Quine to use Cassandra or Astra DB**
 
-3️⃣ **Provide an overview of Cassandra Architecture**
+3️⃣ **Provide an overview of Quine's Architecture**
 
-4️⃣ **Make you create your first tables and run your first statements**
+4️⃣ **Have you run a streaming scenario to detect an anomaly in the graph**
 
-🚀 **Have fun with an interactive session**
+🚀 **Have fun with an interactive session!**
 
 ## 2. Frequently asked questions
 
@@ -41,9 +41,10 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 <details>
 <summary><b> 1️⃣ Can I run this workshop on my computer?</b></summary>
 <hr>
-<p>There is nothing preventing you from running the workshop on your own machine. If you do so, you will need the following:
+<p>There is nothing preventing you from running the workshop on your own machine. If you do so, you will need the following installed on your local system:
 <ol>
-<li><b>git</b> installed on your local system
+<li><b>git</b>
+<li><b>Java 11</b>
 </ol>
 </p>
 In this readme, we try to provide instructions for local development as well - but keep in mind that the main focus is development on Gitpod, hence <strong>we can't guarantee live support</strong> about local development in order to keep on track with the schedule. However, we will do our best to give you the info you need to succeed.
@@ -55,7 +56,7 @@ In this readme, we try to provide instructions for local development as well - b
 <ul>
 <li>You will need enough *real estate* on screen, we will ask you to open a few windows and it would not fit on mobiles (tablets should be OK)
 <li>You will need an Astra account: don't worry, we'll work through that in the following
-<li>As "Intermediate level" we expect you to know what java and Spring are.
+<li>As "Intermediate level" we expect you to know what Java is.  If you don't know what a streaming graph is, or haven't used a graph system before, that's ok...we'll cover that.
 </ul>
 </p>
 </details>
@@ -67,9 +68,9 @@ In this readme, we try to provide instructions for local development as well - b
 </details>
 <p/>
 <details>
-<summary><b> 4️⃣ Will I get a certificate if I attend this workshop?</b></summary>
+<summary><b> 4️⃣ Will I get a certificate or badge if I attend this workshop?</b></summary>
 <hr>
-Attending the session is not enough. You need to complete the homework detailed below and you will get a nice badge that you can share on linkedin or anywhere else *(open badge specification)*
+Attending the session is not enough. You need to complete the homework detailed below and you will get a nice badge that you can share on LinkedIn or anywhere else *(open badge specification)*
 </details>
 <p/>
 
@@ -80,7 +81,7 @@ we have you covered. In this repository, you'll find everything you need for thi
 
 - [Slide deck](/slides/slides.pdf)
 - [Discord chat](https://dtsx.io/discord)
-- [Questions and Answers](https://community.datastax.com/)
+- [Questions and Answers](https://stackoverflow.com/questions/tagged/cassandra/)
 - [Twitch backup](https://www.twitch.tv/datastaxdevs)
 
 ----
@@ -108,6 +109,19 @@ save it somewhere safe, as it will be needed to later in others workshop (In par
 
 The status will change from `Pending` to `Active` when the database is ready, this will only take 2-3 minutes. You will also receive an email when it is ready.
 
+### Download the SCB from the Astra dashboard
+
+To connect Quine (and other applications) with Astra DB, you will need a few points of data.  Most importantly you'll need to note your cloud region and token, as well as to download the secure connect bundle (SCB).
+
+#### Cloud Region
+
+#### Token
+
+#### SCB
+
+<img src="data/img/scb_download_connect.png" width="200" align=right />
+
+
 [🏠 Back to Table of Contents](#-table-of-content)
 
 ## 5. Setup Quine
@@ -118,16 +132,14 @@ These instructions were written using Java 11.10.  To run Quine locally, follow 
 
 ### Download Quine
 
-Follow the [Download Quine page](https://quine.io/download) to download the JAR. Choose/create a directory for Quine, and copy the JAR to this location:
+Follow the [Download Quine page](https://quine.io/download) to download the JAR. Choose/create a directory for Quine, and copy the JAR to another location:
 
 ```bash
 mkdir ~/local/quine
-cp ~/Downloads/quine-1.2.1.jar ~/local/quine
+cp ~/Downloads/quine-1.3.2.jar ~/local/quine/
 ```
 
 ### Configure Quine
-
-✅ Step 3 Configuration
 
 Create a `quine.conf` file inside the quine directory:
 
@@ -195,12 +207,21 @@ Astra-Specific Settings:
 
 `secure-connect-bundle` - A valid, local file location of a downloaded Astra secure connect bundle. The driver gets the Astra DB hostname from the secure bundle, so there is no need to specify endpoints separately.
 
-### Starting Quine
+### Download the recipe file
 
-To run Quine, invoke the JAR with Java, while passing the `quine.conf` in the `config.file` JVM parameter:
+Head out to Quine's "Password Spraying" [recipe](https://quine.io/recipes/password-spraying).  Look for the "Download the [sample data file](https://that.re/attempts)" and click it.  Move the resulting JSON file to your `quine` directory.
 
 ```bash
-java -Dconfig.file=quine.conf -jar quine-1.2.1.jar
+mkdir ~/local/quine
+cp attempts.json ~/local/quine/
+```
+
+### Starting Quine
+
+To run Quine using the Password Spray recipe, invoke the JAR with Java, while passing the `quine.conf` as a `config.file` JVM parameter, while also specifying the recipe, like this:
+
+```bash
+java -Dconfig.file=quine.conf -jar quine-1.3.2.jar -r passwordspraying --force-config
 ```
 
 If Quine starts correctly, it should produce output similar to below:
@@ -210,6 +231,8 @@ Graph is ready!
 Application state loaded.
 Quine app web server available at http://0.0.0.0:8080
 ```
+
+Quine should then start ingesting the data stream automatically, displaying its progress as it moves along.
 
 You can now use Quine's visual graph explorer in a web browser, and create/traverse data with either Gremlin or Cypher: http://localhost:8080/
 

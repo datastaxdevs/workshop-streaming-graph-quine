@@ -166,8 +166,35 @@ touch quine.conf
 
 Edit the `quine.conf` file:
 
-```shell:quine.conf
-
+```json
+quine.store {
+  # store data in an Apache Cassandra instance
+  type = cassandra
+  # the keyspace to use
+  keyspace = quine
+  should-create-keyspace = false
+  should-create-tables = true
+  replication-factor = 3
+  write-consistency = LOCAL_QUORUM
+  read-consistency = LOCAL_QUORUM
+  local-datacenter = "us-east1"
+  write-timeout = "10s"
+  read-timeout = "10s"
+}
+datastax-java-driver {
+  advanced {
+    auth-provider {
+      class = PlainTextAuthProvider
+      username = "token"
+      password = "AstraCS:qFDPGZEgBlahBlahYourTokenGoesHerecff15fc"
+    }
+  }
+  basic {
+    cloud {
+      secure-connect-bundle = "/Users/aaronploetz/local/secure-connect-quine.zip"
+    }
+  }
+}
 ```
 
 #### Astra-Specific Settings:
@@ -223,6 +250,56 @@ Quine app web server available at http://0.0.0.0:8080
 ```
 
 Quine should then start ingesting the data stream automatically, displaying its progress as it moves along.
+
+If the output does not read: 
+
+```
+Graph is ready!
+Application state loaded.
+Quine app web server available at http://locahost:8080
+```
+
+Then look for exceptions.
+
+If you see an error:
+
+```
+com.datastax.oss.driver.api.core.servererrors.InvalidQueryException: Clustering key columns must exactly match columns in CLUSTERING ORDER BY directive
+```
+
+Check to ensure the snapshots table exists:
+
+```
+cqlsh> use quine;
+cqlsh> desc quine;
+```
+
+If not, execute this command in CQLSH to create it:
+
+```
+CREATE TABLE quine.snapshots (
+    quine_id blob,
+    timestamp bigint,
+    multipart_index int,
+    data blob,
+    multipart_count int,
+    PRIMARY KEY (quine_id, timestamp, multipart_index)
+) WITH CLUSTERING ORDER BY (timestamp DESC, multipart_index ASC)
+    AND additional_write_policy = '99PERCENTILE'
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = ''
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.UnifiedCompactionStrategy'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair = 'BLOCKING'
+    AND speculative_retry = '99PERCENTILE';
+```
 
 You can now use Quine's visual graph explorer in a web browser, and create/traverse data with either Gremlin or Cypher: http://localhost:8080/
 

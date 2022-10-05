@@ -18,27 +18,14 @@ It doesn't matter if you join our workshop live or you prefer to do it at your o
 
 ## 📋 Table of contents
 
-- [🎓 Graph Streaming with Astra and Quine](#-graph-streaming-with-astra-and-quine)
-  - [📋 Table of contents](#-table-of-contents)
-  - [Objectives](#objectives)
-  - [Frequently asked questions](#frequently-asked-questions)
-  - [Materials for the Session](#materials-for-the-session)
-- [🏁 Start Hands-on](#-start-hands-on)
-  - [Create your Astra DB instance](#create-your-astra-db-instance)
-    - [Download the SCB from the Astra dashboard](#download-the-scb-from-the-astra-dashboard)
-      - [Cloud Region](#cloud-region)
-      - [Token](#token)
-      - [SCB](#scb)
-  - [Setup Quine](#setup-quine)
-    - [Download Quine](#download-quine)
-    - [Configure Quine](#configure-quine)
-      - [Astra-Specific Settings:](#astra-specific-settings)
-    - [Download the recipe and sample data](#download-the-recipe-and-sample-data)
-    - [Starting Quine](#starting-quine)
-  - [Graph Exploration](#graph-exploration)
-  - [Homework](#homework)
-  - [What's NEXT ?](#whats-next-)
-<p><br/>
+1. [Objectives](#objectives)
+2. [Frequently asked questions](#frequently-asked-questions)
+3. [Materials for the Session](#materials-for-the-session)
+4. [Create your Database](#create-your-astra-db-instance)
+5. [Setup Quine](#setup-quine)
+6. [Graph Exploration](#)
+7. [Homework](#homework)
+8. [What's NEXT](#whats-next)
 
 ## Objectives
 

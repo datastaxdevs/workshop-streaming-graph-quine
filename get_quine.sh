@@ -11,4 +11,4 @@ curl -s https://api.github.com/repos/thatdot/quine/releases/latest \
 ln -s $(ls -tr quine-*.jar | tail -1) quine.jar
 
 # Download the sample data
-curl -L https://that.re/attempts -o attempts.json
+wget https://that.re/attempts --max-redirect=10 -O attempts.json

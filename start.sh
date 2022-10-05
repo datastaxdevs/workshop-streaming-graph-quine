@@ -24,7 +24,7 @@ if test -f ~/.astrarc; then
     sed -i.bak "s|SECURE_CONNECT_BUNDLE|\"$bundle_file\"|" quine.conf
 
     # start Quine
-    #java -Dconfig.file=quine.conf -jar quine.jar -r password-spraying-workshop.yml --force-config
+    java -Dconfig.file=quine.conf -jar quine.jar -r password-spraying-workshop.yml --force-config
 else
     echo "Please set up your token with Astra Shell by running: astra setup"
 fi

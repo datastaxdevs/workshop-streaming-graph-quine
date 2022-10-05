@@ -23,9 +23,9 @@ It doesn't matter if you join our workshop live or you prefer to do it at your o
 3. [Materials for the Session](#materials-for-the-session)
 4. [Create your Database](#create-your-astra-db-instance)
 5. [Setup Quine](#setup-quine)
-6. [Graph Exploration](#)
+6. [Graph Exploration](#graph-exploration)
 7. [Homework](#homework)
-8. [What's NEXT](#whats-next)
+8. [What's NEXT](#whats-next-)
 
 ## Objectives
 
@@ -153,7 +153,7 @@ touch quine.conf
 
 Edit the `quine.conf` file:
 
-```json
+```
 quine.store {
   # store data in an Apache Cassandra instance
   type = cassandra

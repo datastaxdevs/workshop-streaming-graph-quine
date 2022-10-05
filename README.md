@@ -109,13 +109,13 @@ Leveraging the [database creation guide](https://awesome-astra.github.io/docs/pa
 > **ℹ️ Note:** If you already have a database `workshops`, simply add a keyspace `quine` using the `Add Keyspace` button on the bottom right hand corner of db dashboard page.
 
 While the database is being created, you will also get a **Security token**:
-save it somewhere safe, as it will be needed to later in others workshop (In particular the string starting with `AstraCS:...`.)
+save it somewhere safe, as it will be needed later in other workshops (In particular the string starting with `AstraCS:...`.)
 
 The status will change from `Pending` to `Active` when the database is ready, this will only take 2-3 minutes. You will also receive an email when it is ready.
 
 ### Download the SCB from the Astra dashboard
 
-To connect Quine (and other applications) with Astra DB, you will need a few points of data.  Most importantly you'll need to note your cloud region and token, as well as download the secure connect bundle (SCB).
+To connect Quine (and other applications) with Astra DB, you will need a few pieces of data.  Most importantly you'll need to note your cloud region and token, as well as download the secure connect bundle (SCB).
 
 #### Cloud Region
 
@@ -125,9 +125,16 @@ To connect Quine (and other applications) with Astra DB, you will need a few poi
 
 <img src="data/img/scb_download_connect.png" width="200" align=right />
 
-In your [Astra DB console](https://astra.datastax.com/) navigate to your database in the dashboard, then the connect tab. In the 'Connect using a Driver', and then the click 'Java' Java section. Then click the 'download bundle' on the right. Without unzipping it, move the downloaded file to the directory you created which contains the `quine-1.3.2.jar`.
+In your [Astra DB console](https://astra.datastax.com/) navigate to your database in the dashboard, then select the connect tab. In the 'Connect using a Driver' section, click the 'Java' section. Then click the 'download bundle' on the right.
 
-The file will be named `secure-connect-[your databasename].zip` so in this example `secure-connect-quine.zip`. You will reference this file directly in the previous configuration file step above.
+The file will be named `secure-connect-[your databasename].zip` so in this example `secure-connect-workshops.zip`. You will reference this file directly in the previous configuration file step above.
+
+Without unzipping it, move the downloaded file to your working directory for this workshop.
+
+```bash
+mkdir ~/local/quine
+cp ~/Downloads/secure-connect-workshops.zip ~/local/quine/
+```
 
 [🏠 Back to Table of Contents](#-table-of-content)
 
@@ -182,7 +189,7 @@ datastax-java-driver {
   }
   basic {
     cloud {
-      secure-connect-bundle = "/Users/aaronploetz/local/secure-connect-quine.zip"
+      secure-connect-bundle = "/Users/aaronploetz/local/secure-connect-workshops.zip"
     }
   }
 }

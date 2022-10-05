@@ -115,15 +115,19 @@ The status will change from `Pending` to `Active` when the database is ready, th
 
 ### Download the SCB from the Astra dashboard
 
-To connect Quine (and other applications) with Astra DB, you will need a few points of data.  Most importantly you'll need to note your cloud region and token, as well as to download the secure connect bundle (SCB).
-
-<img src="data/img/scb_download_connect.png" width="200" align=right />
+To connect Quine (and other applications) with Astra DB, you will need a few points of data.  Most importantly you'll need to note your cloud region and token, as well as download the secure connect bundle (SCB).
 
 #### Cloud Region
 
 #### Token
 
 #### SCB
+
+<img src="data/img/scb_download_connect.png" width="200" align=right />
+
+In your [Astra DB console](https://astra.datastax.com/) navigate to your database in the dashboard, then the connect tab. In the 'Connect using a Driver', and then the click 'Java' Java section. Then click the 'download bundle' on the right. Without unzipping it, move the downloaded file to the directory you created which contains the `quine-1.3.2.jar`.
+
+The file will be named `secure-connect-[your databasename].zip` so in this example `secure-connect-quine.zip`. You will reference this file directly in the previous configuration file step above.
 
 [🏠 Back to Table of Contents](#-table-of-content)
 

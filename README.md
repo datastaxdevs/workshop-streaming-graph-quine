@@ -117,6 +117,13 @@ To connect Quine (and other applications) with Astra DB, you will need a few poi
 
 #### Token
 
+> **⚠️ Important**
+> ```
+> The instructor will show you on screen how to create a token 
+> but will have to destroy to token immediately for security reasons.
+> ```
+
+
 #### SCB
 
 <img src="data/img/scb_download_connect.png" width="200" align=right />

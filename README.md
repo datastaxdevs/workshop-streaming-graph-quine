@@ -230,6 +230,28 @@ Then, download the [sample data file](https://that.re/attempts)" and move the JS
 mkdir ~/local/quine
 cp attempts.json ~/local/quine/
 ```
+
+Alternatively, if you have cloned this repository and are working in the repo directory locally, you can run the `get_quine.sh` script. If successful, the script will download the latest version of Quine and the sample data for this workshop, and the script will output something similar to what you see below.
+
+```shell
+❯ ./get_quine.sh
+
+HTTP request sent, awaiting response... 200 OK
+Length: 220704180 (210M) [application/octet-stream]
+Saving to: ‘quine-1.3.2.jar’
+
+quine-1.3.2.jar        100%[=========================================================>] 210.48M  20.5MB/s    in 22s     
+
+2022-10-06 11:13:39 (9.78 MB/s) - ‘quine-1.3.2.jar’ saved [220704180/220704180]
+
+HTTP request sent, awaiting response... 200 OK
+Length: 82243423 (78M) [application/json]
+Saving to: ‘attempts.json’
+
+attempts.json          100%[=========================================================>]  78.43M  15.4MB/s    in 5.0s    
+
+2022-10-06 11:13:49 (15.8 MB/s) - ‘attempts.json’ saved [82243423/82243423]
+```
 ### Starting Quine
 
 To run Quine using the Password Spray recipe, invoke the JAR with Java, while passing the `quine.conf` as a `config.file` JVM parameter, while also specifying the recipe, like this:
@@ -272,7 +294,7 @@ cqlsh> use quine;
 cqlsh> desc quine;
 ```
 
-If not, execute this command in CQLSH to create it:
+If not, execute this command in `cqlsh` to create it:
 
 ```
 CREATE TABLE quine.snapshots (
@@ -305,17 +327,36 @@ You can now use Quine's visual graph explorer in a web browser, and create/trave
 
 ## Graph Exploration
 
-```
-todo
+The `attempts.json` contains the pattern for one password spraying attack. Quine will produce an alert in the console when the standing query matches the pattern. The alert will look similar to this:
+
+```shell
+2022-10-07 09:37:46,255 Standing query `alert` match: {"meta":{"isPositiveMatch":true,"resultId":"7242b979-03c2-2bc3-9879-13661e8359b5"},"data":{"QuineUILink":"Password Spraying Attack: http://localhost:8080/#MATCH%20(user)-[:ORIGINATED]-%3E(attempt1%20%7BoutcomeResult:%22FAILURE%22%7D)-[:NEXT]-%3E(attempt2%20%7BoutcomeResult:%22FAILURE%22%7D)-[:NEXT]-%3E(attempt3%20%7BoutcomeResult:%22FAILURE%22%7D)-[:NEXT]-%3E(attempt4%20%7BoutcomeResult:%22FAILURE%22%7D)-[:NEXT]-%3E(attempt5%20%7BoutcomeResult:%22SUCCESS%22%7D)%20WHERE%20id(attempt1)=%22cb73fb14-4686-3913-8cd8-7d4d608b53d5%22%20RETURN%20DISTINCT%20user%2Cattempt1%2Cattempt2%2Cattempt3%2Cattempt4%2Cattempt5"}}
 ```
 
+When the alert arrives, hold down the command key on a MAC and right-click the link to open Quine.
+
+You should be able to arrange the graph in your browser into a shape similar to this:
+
+![quine exploration ui](data/img/quine-exploration-ui.png)
+
+Explore the graph using the [Exploration UI](https://docs.quine.io/getting-started/exploration-ui.html) to follow the path of the attack in the event stream.
 ## Homework
 
 To submit the **homework**,
 
+* Write a new recipe or extend an existing one and take SCREENSHOT(s).
+  * Visit the Quine [documentation](https://docs.quine.io/docs.html) site
+  * Go through the Getting Started -> [Quine Recipes](https://docs.quine.io/getting-started/recipes-tutorial.html) tutorial
+  * Create a new recipe from scratch, or...
+  * Modify an [existing recipe](https://quine.io/recipes) to do something new
+  * Email the SCREENSHOT(s) of Quine running your recipe in the browser and the recipe YAML file
+
+EMAIL:
+```text
+To: aaron.ploetz@datastax.com, michael@thatdot.com 
+Subject: Quine Homework
 ```
-todo
-```
+
 
 ## What's NEXT ?
 

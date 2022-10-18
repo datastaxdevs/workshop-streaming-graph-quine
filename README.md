@@ -121,7 +121,6 @@ The status will change from `Pending` to `Active` when the database is ready, th
 > but will have to destroy to token immediately for security reasons.
 > ```
 
-
 [🏠 Back to Table of Contents](#-table-of-content)
 
 ## Setup Quine
@@ -226,7 +225,7 @@ datastax-java-driver {
 
 `secure-connect-bundle` - A valid, local file location of a downloaded Astra secure connect bundle. The driver gets the Astra DB hostname from the secure bundle, so there is no need to specify endpoints separately.
 
-### Download the recipe and sample data
+### Download the recipe and sample data - Local
 
 Download the "Password Spraying" [recipe](https://raw.githubusercontent.com/datastaxdevs/workshop-streaming-graph-quine/main/password-spraying-workshop.yml) from Github. Move the resulting YAML file to your `quine` directory.
 
@@ -263,7 +262,7 @@ attempts.json          100%[====================================================
 
 2022-10-06 11:13:49 (15.8 MB/s) - ‘attempts.json’ saved [82243423/82243423]
 ```
-### Starting Quine
+### Starting Quine - Local
 
 To run Quine using the Password Spray recipe, invoke the JAR with Java, while passing the `quine.conf` as a `config.file` JVM parameter, while also specifying the recipe, like this:
 
@@ -271,6 +270,8 @@ To run Quine using the Password Spray recipe, invoke the JAR with Java, while pa
 cd ~/local/quine
 java -Dconfig.file=quine.conf -jar quine-1.3.2.jar -r password-spraying-workshop.yml --force-config
 ```
+
+### Troubleshooting
 
 If Quine starts correctly, it should produce output similar to below:
 ```bash
@@ -292,13 +293,21 @@ Quine app web server available at http://locahost:8080
 
 Then look for exceptions.
 
+#### Snapshots table fails to CREATE
+
 If you see an error:
 
 ```
 com.datastax.oss.driver.api.core.servererrors.InvalidQueryException: Clustering key columns must exactly match columns in CLUSTERING ORDER BY directive
 ```
 
-Check to ensure the snapshots table exists:
+From GitPod, you can fix this by using the Astra CLI.  If your DB name is different from "workshops," replace it as appropriate.
+
+```bash
+astra db cqlsh workshops
+```
+
+Check to ensure the `snapshots` table exists:
 
 ```
 cqlsh> use quine;
@@ -331,6 +340,20 @@ CREATE TABLE quine.snapshots (
     AND read_repair = 'BLOCKING'
     AND speculative_retry = '99PERCENTILE';
 ```
+
+#### Clearing Quine Data
+
+If you see a message after starting Quine like this:
+
+```bash
+Standing Query STANDING-1 already exists
+Standing Query STANDING-2 already exists
+Ingest Stream INGEST-1 already exists
+```
+
+...that means that you'll need to clear the existing data before proceeding.  You can do this by running the `truncate_tables.sh` script from within GitPod.
+
+### Quine Graph Explorer
 
 You can now use Quine's visual graph explorer in a web browser, and create/traverse data with either Gremlin or Cypher: http://localhost:8080/
 

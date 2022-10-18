@@ -20,12 +20,12 @@ tasks:
       mkdir bin
       curl -Ls "https://dtsx.io/get-astra-cli" | bash
 
-      # Astra CLI setup
-      astra setup
-
     command: |-
       # Open README in VS Code (or default IDE)
       gp open README.md
+
+      # Astra CLI setup
+      astra setup
 
 ports:
   - port: 8080

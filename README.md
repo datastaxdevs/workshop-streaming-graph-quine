@@ -395,6 +395,11 @@ You should be able to arrange the graph in your browser into a shape similar to 
 ![quine exploration ui](data/img/quine-exploration-ui.png)
 
 Explore the graph using the [Exploration UI](https://docs.quine.io/getting-started/exploration-ui.html) to follow the path of the attack in the event stream.
+
+## Stopping Quine
+
+To stop Quine, you can simply hit <kbd>Ctrl</kbd>+<kbd>c</kbd>.  Or, you can run the `stop.sh` file from a terminal (locally or from within GitPod).
+
 ## Homework
 
 To submit the **homework**,

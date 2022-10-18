@@ -1,29 +1,33 @@
-<!--- STARTEXCLUDE --->
 # 🎓 Graph Streaming with Astra and Quine
 
-Welcome to the *Graph Streaming and Quine** workshop! In this two-hour workshop, we show how to combine scalable database as `Apache Cassandra™` with a poweful realtime graph engine `Quine`.
+Welcome to the real-time graph ETL for modern data pipelines with **Quine and Apache Cassandra** workshop! In this two-hour workshop, we show how to combine a scalable database, `Apache Cassandra™`, with a powerful real-time streaming graph processor, `Quine`.
 
-Using **Astra DB**, the cloud based _Cassandra-as-a-Service_ platform delivered by DataStax, we will cover the very first steps for every developer who wants to try to learn a new database: creating tables and CRUD operations.
+⏲️ **Duration :** 2 hours
 
-![](images/splash.png)
+🎓 **Level :** Intermediate
 
-It doesn't matter if you join our workshop live or you prefer to do at your own pace, we have you covered. In this repository, you'll find everything you need for this workshop:
+![](data/img/splash.png)
+
+Using **Astra DB**, the cloud-based _Cassandra-as-a-Service_ platform delivered by DataStax, we will cover the very first steps for every developer who wants to try to learn a new database: creating tables and CRUD operations.
+
+Quine, from the team at thatDot, is a real-time streaming graph interpreter. A server-side program that consumes data, builds a graph structure, and runs live computation on that graph to answer questions or compute results, and then stream them out.
+
+It doesn't matter if you join our workshop live or you prefer to do it at your own pace, we have you covered. In this repository, you'll find everything you need for this workshop:
 
 > [🔖 Accessing HANDS-ON](#-start-hands-on)
 
 ## 📋 Table of contents
 
-1. [Objectives](#1-objectives)
-2. [Frequently asked questions](#2-frequently-asked-questions)
-3. [Materials for the Session](#3-materials-for-the-session)
-4. [Create your Database](#4-create-your-astra-db-instance)
-5. [Setup Quine](#5-setup-quine)
-6. [Security pattern recognition](6-security-pattern-recognition)
-7. [Homework](#7-homework)
-8. [What's NEXT ](#8-whats-next-)
-<p><br/>
+1. [Objectives](#objectives)
+2. [Frequently asked questions](#frequently-asked-questions)
+3. [Materials for the Session](#materials-for-the-session)
+4. [Create your Database](#create-your-astra-db-instance)
+5. [Setup Quine](#setup-quine)
+6. [Graph Exploration](#graph-exploration)
+7. [Homework](#homework)
+8. [What's NEXT](#whats-next-)
 
-## 1. Objectives
+## Objectives
 
 1️⃣ **Give you an understanding of Quine streaming graph**
 
@@ -35,7 +39,7 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 
 🚀 **Have fun with an interactive session!**
 
-## 2. Frequently asked questions
+## Frequently asked questions
 
 <p/>
 <details>
@@ -74,7 +78,7 @@ Attending the session is not enough. You need to complete the homework detailed 
 </details>
 <p/>
 
-## 3. Materials for the Session
+## Materials for the Session
 
 It doesn't matter if you join our workshop live or you prefer to work at your own pace,
 we have you covered. In this repository, you'll find everything you need for this workshop:
@@ -88,43 +92,39 @@ we have you covered. In this repository, you'll find everything you need for thi
 
 # 🏁 Start Hands-on
 
-## 4. Create your Astra DB instance
+## Create your Astra DB instance
 
 _**`ASTRA DB`** is the simplest way to run Cassandra with zero operations at all - just push the button and get your cluster. No credit card required, 40M read/write operations and about 80GB storage monthly for free - sufficient to run small production workloads. If you end your credits the databases will pause, no charge_
 
-Leveraging [Database creation guide](https://awesome-astra.github.io/docs/pages/astra/create-instance/#c-procedure) create a database. *Right-Click the button* with *Open in a new TAB.*
+Leveraging the [database creation guide](https://awesome-astra.github.io/docs/pages/astra/create-instance/#c-procedure), create a database. *Right-Click the button* with *Open in a new TAB.*
 
-<a href="https://astra.dev/2-16"><img src="images/create_astra_db_button.png?raw=true" /></a>
+<a href="https://astra.dev/2-16"><img src="data/img/create_astra_db.png?raw=true" /></a>
 
 |Field|Value|
 |---|---|
 |**Database Name**| `workshops`|
 |**Keyspace Name**| `quine`|
-|**Regions**| Select `GOOGLE CLOUD`, then an Area close to you, then a region with no LOCKER 🔒 icons, those are the region you can use for free.   |
+|**Regions**| Select `GOOGLE CLOUD`, then Moncks Corner (us-east1) OR an Area close to you, then a region with no LOCK 🔒 icons, those are the region you can use for free.   |
 
 > **ℹ️ Note:** If you already have a database `workshops`, simply add a keyspace `quine` using the `Add Keyspace` button on the bottom right hand corner of db dashboard page.
 
 While the database is being created, you will also get a **Security token**:
-save it somewhere safe, as it will be needed to later in others workshop (In particular the string starting with `AstraCS:...`.)
+save it somewhere safe, as it will be needed later in other workshops (In particular the string starting with `AstraCS:...`.)
 
 The status will change from `Pending` to `Active` when the database is ready, this will only take 2-3 minutes. You will also receive an email when it is ready.
 
-### Download the SCB from the Astra dashboard
-
-To connect Quine (and other applications) with Astra DB, you will need a few points of data.  Most importantly you'll need to note your cloud region and token, as well as to download the secure connect bundle (SCB).
-
-#### Cloud Region
-
 #### Token
 
-#### SCB
-
-<img src="data/img/scb_download_connect.png" width="200" align=right />
+> **⚠️ Important**
+> ```
+> The instructor will show you on screen how to create a token
+> but will have to destroy to token immediately for security reasons.
+> ```
 
 
 [🏠 Back to Table of Contents](#-table-of-content)
 
-## 5. Setup Quine
+## Setup Quine
 
 These instructions were written using Java 11.10.  To run Quine locally, follow the steps below.  Or, you can run it in GitPod:
 
@@ -152,7 +152,7 @@ You will be prompted to enter (paste) your token.
 
 Open a new terminal window and run Quine by executing:
 ```bash
-start.sh
+./start.sh
 ```
 
 ### Download Quine - Local
@@ -160,8 +160,8 @@ start.sh
 Follow the [Download Quine page](https://quine.io/download) to download the JAR. Choose/create a directory for Quine, and copy the JAR to another location:
 
 ```bash
-mkdir ~/local/quine
-cp ~/Downloads/quine-1.3.2.jar ~/local/quine/
+mkdir -p ~/local/quine
+cp quine-1.3.2.jar ~/local/quine/
 ```
 
 ### Configure Quine - Local
@@ -173,26 +173,20 @@ cd ~/local/quine
 touch quine.conf
 ```
 
-Edit the `quine.conf` file to look like the following:
+Edit the `quine.conf` file:
 
 ```
 quine.store {
   # store data in an Apache Cassandra instance
   type = cassandra
-
   # the keyspace to use
   keyspace = quine
-
   should-create-keyspace = false
   should-create-tables = true
-
   replication-factor = 3
-
   write-consistency = LOCAL_QUORUM
   read-consistency = LOCAL_QUORUM
-
-  local-datacenter = "us-east1"
-
+  local-datacenter = ${ASTRA_DB_REGION}
   write-timeout = "10s"
   read-timeout = "10s"
 }
@@ -201,18 +195,18 @@ datastax-java-driver {
     auth-provider {
       class = PlainTextAuthProvider
       username = "token"
-      password = "AstraCS:qFDPGZEgBlahBlahYourTokenGoesHerecff15fc"
+      password = ${ASTRA_DB_APP_TOKEN}"
     }
   }
   basic {
     cloud {
-      secure-connect-bundle = "/Users/aaronploetz/local/secure-connect-bundle.zip"
+      secure-connect-bundle = "/workspace/workshop-streaming-graph-quine/secure-connect-workshops.zip"
     }
   }
 }
 ```
 
-Astra-Specific Settings:
+#### Astra-Specific Settings:
 
 `type = cassandra` - If the type is not specified, Quine defaults to use RocksDB.
 
@@ -232,21 +226,50 @@ Astra-Specific Settings:
 
 `secure-connect-bundle` - A valid, local file location of a downloaded Astra secure connect bundle. The driver gets the Astra DB hostname from the secure bundle, so there is no need to specify endpoints separately.
 
-### Download the recipe file - Local
+### Download the recipe and sample data
 
-Head out to Quine's "Password Spraying" [recipe](https://quine.io/recipes/password-spraying).  Look for the "Download the [sample data file](https://that.re/attempts)" and click it.  Move the resulting JSON file to your `quine` directory.
+Download the "Password Spraying" [recipe](https://raw.githubusercontent.com/datastaxdevs/workshop-streaming-graph-quine/main/password-spraying-workshop.yml) from Github. Move the resulting YAML file to your `quine` directory.
+
+```bash
+mkdir ~/local/quine
+cp password-spraying-workshop.yml ~/local/quine/
+```
+
+Then, download the [sample data file](https://that.re/attempts)" and move the JSON file to your `quine` directory.
 
 ```bash
 mkdir ~/local/quine
 cp attempts.json ~/local/quine/
 ```
 
-### Starting Quine - Local
+Alternatively, if you have cloned this repository and are working in the repo directory locally, you can run the `get_quine.sh` script. If successful, the script will download the latest version of Quine and the sample data for this workshop, and the script will output something similar to what you see below.
+
+```shell
+❯ ./get_quine.sh
+
+HTTP request sent, awaiting response... 200 OK
+Length: 220704180 (210M) [application/octet-stream]
+Saving to: ‘quine-1.3.2.jar’
+
+quine-1.3.2.jar        100%[=========================================================>] 210.48M  20.5MB/s    in 22s     
+
+2022-10-06 11:13:39 (9.78 MB/s) - ‘quine-1.3.2.jar’ saved [220704180/220704180]
+
+HTTP request sent, awaiting response... 200 OK
+Length: 82243423 (78M) [application/json]
+Saving to: ‘attempts.json’
+
+attempts.json          100%[=========================================================>]  78.43M  15.4MB/s    in 5.0s    
+
+2022-10-06 11:13:49 (15.8 MB/s) - ‘attempts.json’ saved [82243423/82243423]
+```
+### Starting Quine
 
 To run Quine using the Password Spray recipe, invoke the JAR with Java, while passing the `quine.conf` as a `config.file` JVM parameter, while also specifying the recipe, like this:
 
 ```bash
-java -Dconfig.file=quine.conf -jar quine-1.3.2.jar -r passwordspraying --force-config
+cd ~/local/quine
+java -Dconfig.file=quine.conf -jar quine-1.3.2.jar -r password-spraying-workshop.yml --force-config
 ```
 
 If Quine starts correctly, it should produce output similar to below:
@@ -259,25 +282,94 @@ Quine app web server available at http://0.0.0.0:8080
 
 Quine should then start ingesting the data stream automatically, displaying its progress as it moves along.
 
+If the output does not read:
+
+```
+Graph is ready!
+Application state loaded.
+Quine app web server available at http://locahost:8080
+```
+
+Then look for exceptions.
+
+If you see an error:
+
+```
+com.datastax.oss.driver.api.core.servererrors.InvalidQueryException: Clustering key columns must exactly match columns in CLUSTERING ORDER BY directive
+```
+
+Check to ensure the snapshots table exists:
+
+```
+cqlsh> use quine;
+cqlsh> desc quine;
+```
+
+If not, execute this command in `cqlsh` to create it:
+
+```
+CREATE TABLE quine.snapshots (
+    quine_id blob,
+    timestamp bigint,
+    multipart_index int,
+    data blob,
+    multipart_count int,
+    PRIMARY KEY (quine_id, timestamp, multipart_index)
+) WITH CLUSTERING ORDER BY (timestamp DESC, multipart_index ASC)
+    AND additional_write_policy = '99PERCENTILE'
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = ''
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.UnifiedCompactionStrategy'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair = 'BLOCKING'
+    AND speculative_retry = '99PERCENTILE';
+```
+
 You can now use Quine's visual graph explorer in a web browser, and create/traverse data with either Gremlin or Cypher: http://localhost:8080/
 
 [🏠 Back to Table of Contents](#table-of-contents)
 
-## 6. Security pattern recognition
+## Graph Exploration
 
-```
-todo
+The `attempts.json` contains the pattern for one password spraying attack. Quine will produce an alert in the console when the standing query matches the pattern. The alert will look similar to this:
+
+```shell
+2022-10-07 09:37:46,255 Standing query `alert` match: {"meta":{"isPositiveMatch":true,"resultId":"7242b979-03c2-2bc3-9879-13661e8359b5"},"data":{"QuineUILink":"Password Spraying Attack: http://localhost:8080/#MATCH%20(user)-[:ORIGINATED]-%3E(attempt1%20%7BoutcomeResult:%22FAILURE%22%7D)-[:NEXT]-%3E(attempt2%20%7BoutcomeResult:%22FAILURE%22%7D)-[:NEXT]-%3E(attempt3%20%7BoutcomeResult:%22FAILURE%22%7D)-[:NEXT]-%3E(attempt4%20%7BoutcomeResult:%22FAILURE%22%7D)-[:NEXT]-%3E(attempt5%20%7BoutcomeResult:%22SUCCESS%22%7D)%20WHERE%20id(attempt1)=%22cb73fb14-4686-3913-8cd8-7d4d608b53d5%22%20RETURN%20DISTINCT%20user%2Cattempt1%2Cattempt2%2Cattempt3%2Cattempt4%2Cattempt5"}}
 ```
 
-## 7. Homework
+When the alert arrives, hold down the command key on a MAC and right-click the link to open Quine.
+
+You should be able to arrange the graph in your browser into a shape similar to this:
+
+![quine exploration ui](data/img/quine-exploration-ui.png)
+
+Explore the graph using the [Exploration UI](https://docs.quine.io/getting-started/exploration-ui.html) to follow the path of the attack in the event stream.
+## Homework
 
 To submit the **homework**,
 
-```
-todo
+* Write a new recipe or extend an existing one and take SCREENSHOT(s).
+  * Visit the Quine [documentation](https://docs.quine.io/docs.html) site
+  * Go through the Getting Started -> [Quine Recipes](https://docs.quine.io/getting-started/recipes-tutorial.html) tutorial
+  * Create a new recipe from scratch, or...
+  * Modify an [existing recipe](https://quine.io/recipes) to do something new
+  * Email the SCREENSHOT(s) of Quine running your recipe in the browser and the recipe YAML file
+
+EMAIL:
+```text
+To: aaron.ploetz@datastax.com, michael@thatdot.com
+Subject: Quine Homework
 ```
 
-## 8. What's NEXT ?
+
+## What's NEXT ?
 
 We've just scratched the surface of what you can do using Astra DB, built on Apache Cassandra.
 Go take a look at [DataStax for Developers](https://www.datastax.com/dev) to see what else is possible.

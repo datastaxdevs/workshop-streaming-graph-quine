@@ -129,7 +129,7 @@ These instructions were written using Java 11.10.  To run Quine locally, follow 
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/datastaxdevs/workshop-streaming-graph-quine)
 
-### Astra Shell in GitPod
+### Setup Astra Shell in GitPod
 
 The Astra Shell tool will be included in the GitPod build.  Once the environment has completed its initial build, you should see the following at the bottom of the terminal:
 
@@ -147,6 +147,27 @@ You will be prompted to enter (paste) your token.
 
 ```bash
 • Enter your token (starting with AstraCS) :
+```
+
+Once you it <kbd>enter</kbd>, you should see output similar to below:
+
+```
+[rags@acm.org]
+> ASTRA_DB_APPLICATION_TOKEN=AstraCS:AAAAAAAA
+>
+> [What's NEXT ?]
+> You are all set.(configuration is stored in ~/.astrarc) You can now:
+>    • Use any command, 'astra help' will get you the list
+>    • Try with 'astra db list'
+>    • Enter interactive mode using 'astra'
+>
+> Happy Coding!
+```
+
+Verify the setup with the following command which should list all the databases:
+
+```
+astra db list
 ```
 
 Open a new terminal window and run Quine by executing:
@@ -322,7 +343,7 @@ If you see an error:
 com.datastax.oss.driver.api.core.servererrors.InvalidQueryException: Clustering key columns must exactly match columns in CLUSTERING ORDER BY directive
 ```
 
-...this means that one of tables (likely the `snapshots` table) failed to CREATE properly.  From GitPod, you can fix this by using the Astra CLI.  If your DB name is different from "workshops," replace it as appropriate.
+...this means that one of tables (likely the `snapshots` table) failed to CREATE properly.  From GitPod, you can fix this by using the Astra Shell.  If your DB name is different from "workshops," replace it as appropriate.
 
 ```bash
 astra db cqlsh workshops

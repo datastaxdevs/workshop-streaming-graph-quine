@@ -16,12 +16,14 @@ tasks:
       # Download the sample data
       curl -L https://that.re/attempts -o attempts.json
 
-      # get cqlsh
+      # get Astra CLI
       mkdir bin
       curl -Ls "https://dtsx.io/get-astra-cli" | bash
 
+      # Astra CLI setup
+      astra setup
+
     command: |-
-      export DBName="workshop"
       # Open README in VS Code (or default IDE)
       gp open README.md
 

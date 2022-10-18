@@ -18,7 +18,7 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 3. [Materials for the Session](#3-materials-for-the-session)
 4. [Create your Database](#4-create-your-astra-db-instance)
 5. [Setup Quine](#5-setup-quine)
-6. [Graph Exploration](#)
+6. [Security pattern recognition](6-security-pattern-recognition)
 7. [Homework](#7-homework)
 8. [What's NEXT ](#8-whats-next-)
 <p><br/>
@@ -130,7 +130,32 @@ These instructions were written using Java 11.10.  To run Quine locally, follow 
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/datastaxdevs/workshop-streaming-graph-quine)
 
-### Download Quine
+### Astra Shell in GitPod
+
+The Astra Shell tool will be included in the GitPod build.  Once the environment has completed its initial build, you should see the following at the bottom of the terminal:
+
+```bash
+Open A NEW TERMINAL and run: astra setup
+```
+
+Open a new terminal by clicking the plus ( + ) icon on the upper-right corner of the current terminal window.  Then run:
+
+```bash
+astra setup
+```
+
+You will be prompted to enter (paste) your token.
+
+```bash
+• Enter your token (starting with AstraCS) :
+```
+
+Open a new terminal window and run Quine by executing:
+```bash
+start.sh
+```
+
+### Download Quine - Local
 
 Follow the [Download Quine page](https://quine.io/download) to download the JAR. Choose/create a directory for Quine, and copy the JAR to another location:
 
@@ -139,7 +164,7 @@ mkdir ~/local/quine
 cp ~/Downloads/quine-1.3.2.jar ~/local/quine/
 ```
 
-### Configure Quine
+### Configure Quine - Local
 
 Create a `quine.conf` file inside the quine directory:
 
@@ -207,7 +232,7 @@ Astra-Specific Settings:
 
 `secure-connect-bundle` - A valid, local file location of a downloaded Astra secure connect bundle. The driver gets the Astra DB hostname from the secure bundle, so there is no need to specify endpoints separately.
 
-### Download the recipe file
+### Download the recipe file - Local
 
 Head out to Quine's "Password Spraying" [recipe](https://quine.io/recipes/password-spraying).  Look for the "Download the [sample data file](https://that.re/attempts)" and click it.  Move the resulting JSON file to your `quine` directory.
 
@@ -216,7 +241,7 @@ mkdir ~/local/quine
 cp attempts.json ~/local/quine/
 ```
 
-### Starting Quine
+### Starting Quine - Local
 
 To run Quine using the Password Spray recipe, invoke the JAR with Java, while passing the `quine.conf` as a `config.file` JVM parameter, while also specifying the recipe, like this:
 
@@ -238,7 +263,7 @@ You can now use Quine's visual graph explorer in a web browser, and create/trave
 
 [🏠 Back to Table of Contents](#table-of-contents)
 
-## 6. Graph Exploration
+## 6. Security pattern recognition
 
 ```
 todo

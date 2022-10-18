@@ -1,6 +1,7 @@
 #!/bin/bash
+source .env
 
-dc="workshops"
+db=$DB_NAME
 
 if test -f ~/.astrarc; then
     # get Astra token
@@ -9,7 +10,7 @@ if test -f ~/.astrarc; then
     sed -i "s/ASTRA_TOKEN/\"$token\"/" quine.conf
 
     # get region
-    region=$(astra db list | grep "$dc" | cut -f 4 -d '|')
+    region=$(astra db list | grep "$db" | cut -f 4 -d '|')
     # inject Astra token into quine.conf
     sed -i "s/ASTRA_CLOUD_REGION/$region/" quine.conf
 

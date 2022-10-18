@@ -24,9 +24,6 @@ tasks:
       # Open README in VS Code (or default IDE)
       gp open README.md
 
-      # Astra CLI setup
-      astra setup
-
 ports:
   - port: 8080
     onOpen: open-browser

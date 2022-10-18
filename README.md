@@ -293,6 +293,27 @@ Quine app web server available at http://locahost:8080
 
 Then look for exceptions.
 
+#### Incorrect database name
+
+If you see this error:
+
+```bash
+Downloading Astra secure connect bundle...
+Picked up JAVA_TOOL_OPTIONS:  -Xmx3489m
+[WARN ] - Database workshops has not been found
+[WARN ] - Database 'workshops' has not been found.
+[ERROR] - NOT_FOUND: Database 'workshops' has not been found.
+Download of SCB failed!
+```
+
+...this means that your token is not associated with a database named 'workshops'.  Edit the `.env` file with the following GitPod command:
+
+```bash
+gp open .env
+```
+
+Enter the correct name for your database, and rerun `start.sh`.
+
 #### Snapshots table fails to CREATE
 
 If you see an error:
@@ -301,7 +322,7 @@ If you see an error:
 com.datastax.oss.driver.api.core.servererrors.InvalidQueryException: Clustering key columns must exactly match columns in CLUSTERING ORDER BY directive
 ```
 
-From GitPod, you can fix this by using the Astra CLI.  If your DB name is different from "workshops," replace it as appropriate.
+...this means that one of tables (likely the `snapshots` table) failed to CREATE properly.  From GitPod, you can fix this by using the Astra CLI.  If your DB name is different from "workshops," replace it as appropriate.
 
 ```bash
 astra db cqlsh workshops
@@ -343,7 +364,7 @@ CREATE TABLE quine.snapshots (
 
 #### Clearing Quine Data
 
-If you see a message after starting Quine like this:
+If Quine starts, but you see a message which looks like this:
 
 ```bash
 Standing Query STANDING-1 already exists
@@ -390,7 +411,6 @@ EMAIL:
 To: aaron.ploetz@datastax.com, michael@thatdot.com
 Subject: Quine Homework
 ```
-
 
 ## What's NEXT ?
 

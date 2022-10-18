@@ -104,7 +104,7 @@ Leveraging the [database creation guide](https://awesome-astra.github.io/docs/pa
 |---|---|
 |**Database Name**| `workshops`|
 |**Keyspace Name**| `quine`|
-|**Regions**| Select `GOOGLE CLOUD`, then Moncks Corner (us-east1) OR an Area close to you, then a region with no LOCKER 🔒 icons, those are the region you can use for free.   |
+|**Regions**| Select `GOOGLE CLOUD`, then Moncks Corner (us-east1) OR an Area close to you, then a region with no LOCK 🔒 icons, those are the region you can use for free.   |
 
 > **ℹ️ Note:** If you already have a database `workshops`, simply add a keyspace `quine` using the `Add Keyspace` button on the bottom right hand corner of db dashboard page.
 
@@ -117,10 +117,9 @@ The status will change from `Pending` to `Active` when the database is ready, th
 
 > **⚠️ Important**
 > ```
-> The instructor will show you on screen how to create a token 
+> The instructor will show you on screen how to create a token
 > but will have to destroy to token immediately for security reasons.
 > ```
-
 
 [🏠 Back to Table of Contents](#-table-of-content)
 
@@ -130,68 +129,53 @@ These instructions were written using Java 11.10.  To run Quine locally, follow 
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/datastaxdevs/workshop-streaming-graph-quine)
 
-#### Setup Astra CLI
+### Setup Astra Shell in GitPod
 
-In a new terminal window invoke the following command
+The Astra Shell tool will be included in the GitPod build.  Once the environment has completed its initial build, you should see the following at the bottom of the terminal:
 
+```bash
+Open A NEW TERMINAL and run: astra setup
 ```
+
+Open a new terminal by clicking the plus ( + ) icon on the upper-right corner of the current terminal window.  Then run:
+
+```bash
 astra setup
 ```
 
-and now paste the Astra token that you previously saved as shown below.
+You will be prompted to enter (paste) your token.
+
+```bash
+• Enter your token (starting with AstraCS) :
+```
+
+Once you it <kbd>enter</kbd>, you should see output similar to below:
 
 ```
 [rags@acm.org]
 > ASTRA_DB_APPLICATION_TOKEN=AstraCS:AAAAAAAA
-> 
+>
 > [What's NEXT ?]
 > You are all set.(configuration is stored in ~/.astrarc) You can now:
 >    • Use any command, 'astra help' will get you the list
 >    • Try with 'astra db list'
 >    • Enter interactive mode using 'astra'
-> 
-> Happy Coding 
+>
+> Happy Coding!
 ```
 
-Verify the setup with the following command which should list all the databases.
+Verify the setup with the following command which should list all the databases:
 
 ```
 astra db list
 ```
 
-
-#### Secure Connect Bundle (SCB)
-
-Run the following command to download the SCB.
-
-```
-astra db download-scb workshops -f secure-connect-workshops.zip
+Open a new terminal window and run Quine by executing:
+```bash
+./start.sh
 ```
 
-Verify that the file is about `12k`
-
-```
-ls -l secure-connect-workshops.zip
-```
-
-#### Setup Application token and region environment variables
-
-Set up the environment variable for the token as below.
-
-```
-export ASTRA_DB_APP_TOKEN=`astra config get default --key ASTRA_DB_APPLICATION_TOKEN`
-echo ${ASTRA_DB_APP_TOKEN}
-```
-
-and get the region from the following command.
-
-```
-export ASTRA_DB_REGION=`astra db list | grep workshops | awk -F "|" '{print $4}'`
-echo ${ASTRA_DB_REGION}
-```
-
-
-### Download Quine
+### Download Quine - Local
 
 Follow the [Download Quine page](https://quine.io/download) to download the JAR. Choose/create a directory for Quine, and copy the JAR to another location:
 
@@ -200,7 +184,7 @@ mkdir -p ~/local/quine
 cp quine-1.3.2.jar ~/local/quine/
 ```
 
-### Configure Quine
+### Configure Quine - Local
 
 Create a `quine.conf` file inside the quine directory:
 
@@ -262,7 +246,7 @@ datastax-java-driver {
 
 `secure-connect-bundle` - A valid, local file location of a downloaded Astra secure connect bundle. The driver gets the Astra DB hostname from the secure bundle, so there is no need to specify endpoints separately.
 
-### Download the recipe and sample data
+### Download the recipe and sample data - Local
 
 Download the "Password Spraying" [recipe](https://raw.githubusercontent.com/datastaxdevs/workshop-streaming-graph-quine/main/password-spraying-workshop.yml) from Github. Move the resulting YAML file to your `quine` directory.
 
@@ -299,7 +283,7 @@ attempts.json          100%[====================================================
 
 2022-10-06 11:13:49 (15.8 MB/s) - ‘attempts.json’ saved [82243423/82243423]
 ```
-### Starting Quine
+### Starting Quine - Local
 
 To run Quine using the Password Spray recipe, invoke the JAR with Java, while passing the `quine.conf` as a `config.file` JVM parameter, while also specifying the recipe, like this:
 
@@ -307,6 +291,8 @@ To run Quine using the Password Spray recipe, invoke the JAR with Java, while pa
 cd ~/local/quine
 java -Dconfig.file=quine.conf -jar quine-1.3.2.jar -r password-spraying-workshop.yml --force-config
 ```
+
+### Troubleshooting
 
 If Quine starts correctly, it should produce output similar to below:
 ```bash
@@ -318,7 +304,7 @@ Quine app web server available at http://0.0.0.0:8080
 
 Quine should then start ingesting the data stream automatically, displaying its progress as it moves along.
 
-If the output does not read: 
+If the output does not read:
 
 ```
 Graph is ready!
@@ -328,13 +314,42 @@ Quine app web server available at http://locahost:8080
 
 Then look for exceptions.
 
+#### Incorrect database name
+
+If you see this error:
+
+```bash
+Downloading Astra secure connect bundle...
+Picked up JAVA_TOOL_OPTIONS:  -Xmx3489m
+[WARN ] - Database workshops has not been found
+[WARN ] - Database 'workshops' has not been found.
+[ERROR] - NOT_FOUND: Database 'workshops' has not been found.
+Download of SCB failed!
+```
+
+...this means that your token is not associated with a database named 'workshops'.  Edit the `.env` file with the following GitPod command:
+
+```bash
+gp open .env
+```
+
+Enter the correct name for your database, and rerun `start.sh`.
+
+#### Snapshots table fails to CREATE
+
 If you see an error:
 
 ```
 com.datastax.oss.driver.api.core.servererrors.InvalidQueryException: Clustering key columns must exactly match columns in CLUSTERING ORDER BY directive
 ```
 
-Check to ensure the snapshots table exists:
+...this means that one of tables (likely the `snapshots` table) failed to CREATE properly.  From GitPod, you can fix this by using the Astra Shell.  If your DB name is different from "workshops," replace it as appropriate.
+
+```bash
+astra db cqlsh workshops
+```
+
+Check to ensure the `snapshots` table exists:
 
 ```
 cqlsh> use quine;
@@ -368,6 +383,20 @@ CREATE TABLE quine.snapshots (
     AND speculative_retry = '99PERCENTILE';
 ```
 
+#### Clearing Quine Data
+
+If Quine starts, but you see a message which looks like this:
+
+```bash
+Standing Query STANDING-1 already exists
+Standing Query STANDING-2 already exists
+Ingest Stream INGEST-1 already exists
+```
+
+...that means that you'll need to clear the existing data before proceeding.  You can do this by running the `truncate_tables.sh` script from within GitPod.
+
+### Quine Graph Explorer
+
 You can now use Quine's visual graph explorer in a web browser, and create/traverse data with either Gremlin or Cypher: http://localhost:8080/
 
 [🏠 Back to Table of Contents](#table-of-contents)
@@ -387,6 +416,11 @@ You should be able to arrange the graph in your browser into a shape similar to 
 ![quine exploration ui](data/img/quine-exploration-ui.png)
 
 Explore the graph using the [Exploration UI](https://docs.quine.io/getting-started/exploration-ui.html) to follow the path of the attack in the event stream.
+
+## Stopping Quine
+
+To stop Quine, you can simply hit <kbd>Ctrl</kbd>+<kbd>c</kbd>.  Or, you can run the `stop.sh` file from a terminal (locally or from within GitPod).
+
 ## Homework
 
 To submit the **homework**,
@@ -400,10 +434,9 @@ To submit the **homework**,
 
 EMAIL:
 ```text
-To: aaron.ploetz@datastax.com, michael@thatdot.com 
+To: aaron.ploetz@datastax.com, michael@thatdot.com
 Subject: Quine Homework
 ```
-
 
 ## What's NEXT ?
 

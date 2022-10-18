@@ -104,7 +104,7 @@ Leveraging the [database creation guide](https://awesome-astra.github.io/docs/pa
 |---|---|
 |**Database Name**| `workshops`|
 |**Keyspace Name**| `quine`|
-|**Regions**| Select `GOOGLE CLOUD`, then an Area close to you, then a region with no LOCKER 🔒 icons, those are the region you can use for free.   |
+|**Regions**| Select `GOOGLE CLOUD`, then Moncks Corner (us-east1) OR an Area close to you, then a region with no LOCKER 🔒 icons, those are the region you can use for free.   |
 
 > **ℹ️ Note:** If you already have a database `workshops`, simply add a keyspace `quine` using the `Add Keyspace` button on the bottom right hand corner of db dashboard page.
 
@@ -112,12 +112,6 @@ While the database is being created, you will also get a **Security token**:
 save it somewhere safe, as it will be needed later in other workshops (In particular the string starting with `AstraCS:...`.)
 
 The status will change from `Pending` to `Active` when the database is ready, this will only take 2-3 minutes. You will also receive an email when it is ready.
-
-### Download the SCB from the Astra dashboard
-
-To connect Quine (and other applications) with Astra DB, you will need a few pieces of data.  Most importantly you'll need to note your cloud region and token, as well as download the secure connect bundle (SCB).
-
-#### Cloud Region
 
 #### Token
 
@@ -128,21 +122,6 @@ To connect Quine (and other applications) with Astra DB, you will need a few pie
 > ```
 
 
-#### SCB
-
-<img src="data/img/scb_download_connect.png" width="200" align=right />
-
-In your [Astra DB console](https://astra.datastax.com/) navigate to your database in the dashboard, then select the connect tab. In the 'Connect using a Driver' section, click the 'Java' section. Then click the 'download bundle' on the right.
-
-The file will be named `secure-connect-[your databasename].zip` so in this example `secure-connect-workshops.zip`. You will reference this file directly in the previous configuration file step above.
-
-Without unzipping it, move the downloaded file to your working directory for this workshop.
-
-```bash
-mkdir ~/local/quine
-cp ~/Downloads/secure-connect-workshops.zip ~/local/quine/
-```
-
 [🏠 Back to Table of Contents](#-table-of-content)
 
 ## Setup Quine
@@ -151,13 +130,74 @@ These instructions were written using Java 11.10.  To run Quine locally, follow 
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/datastaxdevs/workshop-streaming-graph-quine)
 
+#### Setup Astra CLI
+
+In a new terminal window invoke the following command
+
+```
+astra setup
+```
+
+and now paste the Astra token that you previously saved as shown below.
+
+```
+[rags@acm.org]
+> ASTRA_DB_APPLICATION_TOKEN=AstraCS:AAAAAAAA
+> 
+> [What's NEXT ?]
+> You are all set.(configuration is stored in ~/.astrarc) You can now:
+>    • Use any command, 'astra help' will get you the list
+>    • Try with 'astra db list'
+>    • Enter interactive mode using 'astra'
+> 
+> Happy Coding 
+```
+
+Verify the setup with the following command which should list all the databases.
+
+```
+astra db list
+```
+
+
+#### Secure Connect Bundle (SCB)
+
+Run the following command to download the SCB.
+
+```
+astra db download-scb workshops -f secure-connect-workshops.zip
+```
+
+Verify that the file is about `12k`
+
+```
+ls -l secure-connect-workshops.zip
+```
+
+#### Setup Application token and region environment variables
+
+Set up the environment variable for the token as below.
+
+```
+export ASTRA_DB_APP_TOKEN=`astra config get default --key ASTRA_DB_APPLICATION_TOKEN`
+echo ${ASTRA_DB_APP_TOKEN}
+```
+
+and get the region from the following command.
+
+```
+export ASTRA_DB_REGION=`astra db list | grep workshops | awk -F "|" '{print $4}'`
+echo ${ASTRA_DB_REGION}
+```
+
+
 ### Download Quine
 
 Follow the [Download Quine page](https://quine.io/download) to download the JAR. Choose/create a directory for Quine, and copy the JAR to another location:
 
 ```bash
-mkdir ~/local/quine
-cp ~/Downloads/quine-1.3.2.jar ~/local/quine/
+mkdir -p ~/local/quine
+cp quine-1.3.2.jar ~/local/quine/
 ```
 
 ### Configure Quine
@@ -182,7 +222,7 @@ quine.store {
   replication-factor = 3
   write-consistency = LOCAL_QUORUM
   read-consistency = LOCAL_QUORUM
-  local-datacenter = "us-east1"
+  local-datacenter = ${ASTRA_DB_REGION}
   write-timeout = "10s"
   read-timeout = "10s"
 }
@@ -191,12 +231,12 @@ datastax-java-driver {
     auth-provider {
       class = PlainTextAuthProvider
       username = "token"
-      password = "AstraCS:qFDPGZEgBlahBlahYourTokenGoesHerecff15fc"
+      password = ${ASTRA_DB_APP_TOKEN}"
     }
   }
   basic {
     cloud {
-      secure-connect-bundle = "/Users/aaronploetz/local/secure-connect-workshops.zip"
+      secure-connect-bundle = "/workspace/workshop-streaming-graph-quine/secure-connect-workshops.zip"
     }
   }
 }

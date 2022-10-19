@@ -1,2 +1,2 @@
-astra db cqlsh StackOGCP -f truncate_tables.cql
+astra db cqlsh $DB_NAME -f truncate_tables.cql
 echo "TRUNCATE TABLEs completed."

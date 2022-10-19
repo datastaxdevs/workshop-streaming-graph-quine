@@ -356,7 +356,7 @@ cqlsh> use quine;
 cqlsh> desc quine;
 ```
 
-If not, execute this command in `cqlsh` to create it:
+If not, execute this CQL in Astra Shell (or cqlsh if you're running locally) to create it:
 
 ```
 CREATE TABLE quine.snapshots (

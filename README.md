@@ -83,7 +83,7 @@ Attending the session is not enough. You need to complete the homework detailed 
 It doesn't matter if you join our workshop live or you prefer to work at your own pace,
 we have you covered. In this repository, you'll find everything you need for this workshop:
 
-- [Slide deck](/slides/slides.pdf)
+- [Slide deck](./slides.pdf)
 - [Discord chat](https://dtsx.io/discord)
 - [Questions and Answers](https://stackoverflow.com/questions/tagged/cassandra/)
 - [Twitch backup](https://www.twitch.tv/datastaxdevs)
@@ -394,6 +394,10 @@ Ingest Stream INGEST-1 already exists
 ```
 
 ...that means that you'll need to clear the existing data before proceeding.  You can do this by running the `truncate_tables.sh` script from within GitPod.
+
+#### Extra Double Quote on STANDING-2 Link
+
+Once you seen the message indicating that an anomaly has been found, you should be able to <kbd>Ctrl</kbd>+click or <kbd>Command</kbd> click to open the Quine Graph Explorer with a query for that pattern match.  However, sometimes the new tab will open and the page load will fail due to an extra double-quote on the end of the query.  Simply click on the query text well, and press <kbd>End</kbd> to go to the end of the line.  If you see a double quote there, <kbd>backspace</kbd> over it.
 
 ### Quine Graph Explorer
 

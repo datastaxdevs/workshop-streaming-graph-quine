@@ -83,7 +83,7 @@ Attending the session is not enough. You need to complete the homework detailed 
 It doesn't matter if you join our workshop live or you prefer to work at your own pace,
 we have you covered. In this repository, you'll find everything you need for this workshop:
 
-- [Slide deck](/slides/slides.pdf)
+- [Slide deck](./slides.pdf)
 - [Discord chat](https://dtsx.io/discord)
 - [Questions and Answers](https://stackoverflow.com/questions/tagged/cassandra/)
 - [Twitch backup](https://www.twitch.tv/datastaxdevs)

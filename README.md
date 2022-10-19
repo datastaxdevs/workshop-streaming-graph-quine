@@ -395,6 +395,10 @@ Ingest Stream INGEST-1 already exists
 
 ...that means that you'll need to clear the existing data before proceeding.  You can do this by running the `truncate_tables.sh` script from within GitPod.
 
+#### Extra Double Quote on STANDING-2 Link
+
+Once you seen the message indicating that an anomaly has been found, you should be able to <kbd>Ctrl</kbd>+click or <kbd>Command</kbd> click to open the Quine Graph Explorer with a query for that pattern match.  However, sometimes the new tab will open and the page load will fail due to an extra double-quote on the end of the query.  Simply click on the query text well, and press <kbd>End</kbd> to go to the end of the line.  If you see a double quote there, <kbd>backspace</kbd> over it.
+
 ### Quine Graph Explorer
 
 You can now use Quine's visual graph explorer in a web browser, and create/traverse data with either Gremlin or Cypher: http://localhost:8080/
